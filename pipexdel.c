@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipexdel.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 17:10:49 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/04 13:59:39 by sakllam          ###   ########.fr       */
+/*   Created: 2021/12/04 16:11:09 by sakllam           #+#    #+#             */
+/*   Updated: 2021/12/04 20:35:25 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ t_commands	*get_all_cmds(int nb, char **args, char **path)
 		return (NULL);	
 	i = 0;
 	Head = NULL;
-	while ((nb - 3) - i)
+	while ((nb - 4) - i)
 	{
-		tmp = ft_check_for_cmd(args[2 + i], path);
+		tmp = ft_check_for_cmd(args[3 + i], path);
 		if (!tmp)
 		{
 			ft_lstclear(&Head);
@@ -95,14 +95,11 @@ int main(int ac, char **av, char **env)
 	t_commands	*cmd;
 	t_all_data	stock;
 
-	if (access(av[1], R_OK) || ac < 5)
+	if (ac != 6)
 		return (0);
 	cmd = get_all_cmds(ac, av, ft_get_executable_foulders(env));
 	if (!cmd)
 		return (0);
-	stock.fd_file1 = open(av[1], O_RDONLY);
-	if (stock.fd_file1 < 1)
-		exit (1);
 	while (cmd)
 	{
 		stock.pipe_respo = pipe(stock.pipe_fds);
@@ -115,22 +112,23 @@ int main(int ac, char **av, char **env)
 		{
 			if (cmd->next)
 			{
-				if (cmd->the_first)
-				{
-					close(stock.pipe_fds[0]);
-					dup2(stock.fd_file1, 0);
-					dup2(stock.pipe_fds[1], 1);
-				}
-				else
-				{
-					dup2(stock.pipe_fds[1], 1);
-					close(stock.pipe_fds[0]);
-				}
+				stock.fd_file1 = open(".her_doc", O_CREAT | O_RDWR , 0777);
+				char *rm = ft_strjoinalfa(av[2]);
+				char *test;
+				while((test = get_next_line(1, rm)))
+					write(stock.fd_file1, test, ft_strlen(test));
+				close(stock.pipe_fds[0]);
+				dup2(stock.fd_file1, 0);
+				dup2(stock.pipe_fds[1], 1);
 			}
 			else
 			{
-				unlink(av[ac - 1]);
-				stock.fd_file2 = open(av[ac - 1], O_WRONLY | O_CREAT, 0777);
+				if (access(av[ac - 1], F_OK))
+				{
+					stock.fd_file2 = open(av[ac - 1], O_WRONLY | O_APPEND, 0777);
+				}
+				else
+					stock.fd_file2 = open(av[ac - 1], O_CREAT | O_WRONLY , 0777);
 				dup2(stock.fd_file2, 1);
 				close(stock.pipe_fds[0]);
 			}
@@ -144,5 +142,6 @@ int main(int ac, char **av, char **env)
 			cmd = cmd->next;
 		}
 	}
+	unlink(".her_doc");
 	return (0);
 }
