@@ -6,10 +6,11 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 18:50:35 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/04 17:09:09 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/05 19:04:28 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "pipex.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

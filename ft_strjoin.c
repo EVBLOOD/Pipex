@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 15:45:19 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/04 19:50:00 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/05 19:03:10 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ char	*ft_strjoinalfa(char const *s1)
 		p[i] = s1[i];
 	p[i++] = '\n';
 	p[i] = '\0';
-	// printf("|%s|", p);
 	return (p);
 }

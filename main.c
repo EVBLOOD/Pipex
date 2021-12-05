@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/01 18:50:35 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/05 19:04:51 by sakllam          ###   ########.fr       */
+/*   Created: 2021/12/05 19:34:45 by sakllam           #+#    #+#             */
+/*   Updated: 2021/12/05 23:31:01 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	main(int ac, char **av, char **env)
 {
-	int				i;
-	unsigned char	*st1;
-	unsigned char	*st2;
-
-	i = 0;
-	st1 = (unsigned char *) s1;
-	st2 = (unsigned char *) s2;
-	while ((st1[i] || st2[i]) && (unsigned int) i < n)
+	if (ac >= 5 && !access(av[1], R_OK))
 	{
-		if (st1[i] != st2[i])
-			return (st1[i] - st2[i]);
-		i++;
+		if (pipex(ac, av, env))
+		{
+			write (1, "something dosn't same to work", 29);
+			return (1);
+		}
+	}
+	else if (ac == 6 && !ft_strcmp(av[1], "here_doc"))
+	{
+		if (pipexdel2(ac, av, env))
+		{
+			write (1, "something dosn't same to work", 29);
+			return (1);
+		}
+	}
+	else
+	{
+		write (1, "Please recheck the inputs.", 25);
+		return (1);
 	}
 	return (0);
 }

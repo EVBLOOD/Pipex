@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 18:22:10 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/04 18:35:03 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/05 19:02:26 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*get_next_line(int fd, char *str)
 	int			i;
 	char		*tmp;
 
-
 	buf = (char *)malloc((1 + 1) * sizeof(char));
 	i = ft_readline(fd, buf, &keep);
 	if (keep[0] == '\0')
@@ -89,9 +88,6 @@ char	*get_next_line(int fd, char *str)
 		keep = tmp;
 	}
 	if (ft_strcmp(buf, str) == 0)
-	{
 		buf = NULL;
-	}
-	// free (str);
 	return (buf);
 }
