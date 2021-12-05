@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 16:11:09 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/04 20:35:25 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/05 15:59:36 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,23 +112,20 @@ int main(int ac, char **av, char **env)
 		{
 			if (cmd->next)
 			{
-				stock.fd_file1 = open(".her_doc", O_CREAT | O_RDWR , 0777);
+				stock.fd_file1 = open(".her_doc", O_CREAT | O_WRONLY , 0777);
 				char *rm = ft_strjoinalfa(av[2]);
 				char *test;
 				while((test = get_next_line(1, rm)))
 					write(stock.fd_file1, test, ft_strlen(test));
+				close(stock.fd_file1);
+				stock.fd_file1 = open(".her_doc", O_RDONLY);
 				close(stock.pipe_fds[0]);
 				dup2(stock.fd_file1, 0);
 				dup2(stock.pipe_fds[1], 1);
 			}
 			else
 			{
-				if (access(av[ac - 1], F_OK))
-				{
-					stock.fd_file2 = open(av[ac - 1], O_WRONLY | O_APPEND, 0777);
-				}
-				else
-					stock.fd_file2 = open(av[ac - 1], O_CREAT | O_WRONLY , 0777);
+				stock.fd_file2 = open(av[ac - 1], O_WRONLY | O_APPEND | O_CREAT, 0777);
 				dup2(stock.fd_file2, 1);
 				close(stock.pipe_fds[0]);
 			}
