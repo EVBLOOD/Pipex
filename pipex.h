@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 13:34:01 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/05 22:53:57 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:29:47 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/uio.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <errno.h>
 
 typedef struct s_commands
 {
@@ -60,7 +61,7 @@ t_commands		*get_all_cmds_second(int nb, char **args, char **path);
 int				ft_first_time_in(t_all_data	*stock, char *her_doc);
 int				ft_second_time_in(t_all_data *stock, char *namefile);
 void			parent_process(t_all_data *stock);
-t_commands		*ft_optigetcmd(t_commands **head);
+t_commands		*ft_optigetcmd(t_commands **head, char *str);
 t_commands		*get_all_cmds(int nb, char **args, char **path);
 int				ft_first_in_mobn(t_all_data *stock);
 int				ft_second_in_mobn(t_all_data *stock);
@@ -75,8 +76,8 @@ int				ft_fodu(t_all_data *stock);
 int				ft_ifchiled(t_all_data	*stock,
 					t_commands *cmd, char *h, char *f);
 int				pipexdel2(int ac, char **av, char **env);
-static size_t	ft_count(char const *s, char c);
-static char		**free_tab(char **tab);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			**ft_split(char const *s, char c);
+void			ft_optifirtime(t_all_data *stock);
+void			ft_exitprog(void);
 #endif

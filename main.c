@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 19:34:45 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/05 23:31:01 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:18:57 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,27 @@
 
 int	main(int ac, char **av, char **env)
 {
-	if (ac >= 5 && !access(av[1], R_OK))
+	if (ac >= 5)
 	{
-		if (pipex(ac, av, env))
+		if (ac == 6 && !ft_strcmp(av[1], "here_doc"))
 		{
-			write (1, "something dosn't same to work", 29);
-			return (1);
+			if (pipexdel2(ac, av, env))
+				exit (1);
 		}
-	}
-	else if (ac == 6 && !ft_strcmp(av[1], "here_doc"))
-	{
-		if (pipexdel2(ac, av, env))
+		else if (!access(av[1], R_OK))
 		{
-			write (1, "something dosn't same to work", 29);
-			return (1);
+			if (pipex(ac, av, env))
+				exit (1);
+		}
+		else
+		{
+			write (2, "file does not exist!", 20);
+			exit (1);
 		}
 	}
 	else
 	{
-		write (1, "Please recheck the inputs.", 25);
+		write (2, "invalid inputs.", 15);
 		return (1);
 	}
 	return (0);

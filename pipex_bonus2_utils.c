@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 17:24:54 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/05 23:40:10 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/06 16:26:02 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_commands	*get_all_cmds_second(int nb, char **args, char **path)
 		tmp = ft_check_for_cmd(args[3 + i], path);
 		if (!tmp)
 		{
+			perror(args[3 + i]);
 			ft_lstclear(&head);
 			return (NULL);
 		}
@@ -56,10 +57,10 @@ int	ft_first_time_in(t_all_data	*stock, char *her_doc)
 
 	rm = ft_strjoinalfa(her_doc);
 	if (!rm)
-		return (1);
-	(*stock).fd_file1 = open(".her_doc", O_CREAT | O_WRONLY, 0777);
+		exit (1);
+	(*stock).fd_file1 = open(".her_doc", O_CREAT | O_WRONLY, 00644);
 	if ((*stock).fd_file1 < 0)
-		return (1);
+		ft_exitprog();
 	write(1, "pipe heredoc> ", 14);
 	line = get_next_line(1, rm);
 	while (line)
@@ -71,17 +72,20 @@ int	ft_first_time_in(t_all_data	*stock, char *her_doc)
 	}
 	close((*stock).fd_file1);
 	(*stock).fd_file1 = open(".her_doc", O_RDONLY);
-	close((*stock).pipe_fds[0]);
-	dup2((*stock).fd_file1, 0);
-	dup2((*stock).pipe_fds[1], 1);
+	if ((*stock).fd_file1 < 0)
+		ft_exitprog();
+	ft_optifirtime(stock);
 	return (0);
 }
 
 int	ft_second_time_in(t_all_data *stock, char *namefile)
 {
-	(*stock).fd_file2 = open(namefile, O_WRONLY | O_APPEND | O_CREAT, 0777);
+	(*stock).fd_file2 = open(namefile, O_CREAT | O_WRONLY | O_APPEND, 00644);
 	if ((*stock).fd_file2 < 0)
-		return (1);
+	{
+		perror("FILE");
+		exit (1);
+	}
 	dup2((*stock).fd_file2, 1);
 	close((*stock).pipe_fds[0]);
 	return (0);
