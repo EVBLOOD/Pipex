@@ -13,12 +13,26 @@ SRC = ft_strncmp.c \
 		pipex.c\
 		pipex_bonus2_utils.c\
 		split.c
-
+SRC_BONUS = ft_strncmp.c \
+		listlibftmofified.c\
+		pipex.fun.c\
+		pipex_mon.c\
+		ft_strcmp.c\
+		get_next_line.c\
+		main_bonus.c\
+		pipexdel.c\
+		ft_strjoin.c\
+		get_next_line_utils.c\
+		pipex.c\
+		pipex_bonus2_utils.c\
+		split.c
 CFLAGS = -Wall -Werror -Wextra
 .PHONY: all clean fclean re $(NAME)
 all: $(NAME)
 $(NAME): $(INCLUDE) $(SRC)
 	gcc $(CFLAGS) $(SRC) -I $(INCLUDE) -o $(NAME)
+bonus: $(INCLUDE) $(SRC_BONUS)
+	gcc $(CFLAGS) $(SRC_BONUS) -I $(INCLUDE) -o $(NAME)
 clean:
 	rm -f $(NAME)
 fclean:
