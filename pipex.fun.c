@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:30:59 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/05 22:51:53 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/07 11:51:59 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,14 @@ char	**ft_get_executable_foulders(char **en)
 	adrs = &en[i][5];
 	result = ft_split(adrs, ':');
 	return (result);
+}
+
+void	ft_baliseexit(t_all_data *stock)
+{
+	stock->count = 0;
+	if (stock->fd_file1 < 1)
+	{
+		perror("FILE:");
+		exit(1);
+	}
 }

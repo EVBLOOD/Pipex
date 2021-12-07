@@ -6,20 +6,23 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 17:24:54 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/06 16:26:02 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/07 13:44:49 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_voidoptim(char ***path)
+void	ft_voidoptim(char **path)
 {
 	int	i;
 
 	i = -1;
-	while ((*path)[++i])
-		free((*path)[i]);
-	free(*path);
+	while (path[++i])
+	{
+		free(path[i]);
+		path[i] = NULL;
+	}
+	free(path);
 }
 
 t_commands	*get_all_cmds_second(int nb, char **args, char **path)
@@ -46,31 +49,12 @@ t_commands	*get_all_cmds_second(int nb, char **args, char **path)
 		ft_lstadd_back(&head, tmp);
 		i++;
 	}
-	ft_voidoptim(&path);
+	ft_voidoptim(path);
 	return (head);
 }
 
-int	ft_first_time_in(t_all_data	*stock, char *her_doc)
+int	ft_first_time_in(t_all_data	*stock)
 {
-	char	*rm;
-	char	*line;
-
-	rm = ft_strjoinalfa(her_doc);
-	if (!rm)
-		exit (1);
-	(*stock).fd_file1 = open(".her_doc", O_CREAT | O_WRONLY, 00644);
-	if ((*stock).fd_file1 < 0)
-		ft_exitprog();
-	write(1, "pipe heredoc> ", 14);
-	line = get_next_line(1, rm);
-	while (line)
-	{
-		write(1, "pipe heredoc> ", 14);
-		write((*stock).fd_file1, line, ft_strlen(line));
-		free(line);
-		line = get_next_line(1, rm);
-	}
-	close((*stock).fd_file1);
 	(*stock).fd_file1 = open(".her_doc", O_RDONLY);
 	if ((*stock).fd_file1 < 0)
 		ft_exitprog();
@@ -93,7 +77,6 @@ int	ft_second_time_in(t_all_data *stock, char *namefile)
 
 void	parent_process(t_all_data *stock)
 {
-	waitpid(0, NULL, 0);
 	dup2((*stock).pipe_fds[0], 0);
 	close((*stock).pipe_fds[1]);
 }

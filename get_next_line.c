@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 18:22:10 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/05 19:02:26 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/07 14:17:58 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,6 @@ char	*get_next_line(int fd, char *str)
 		keep = tmp;
 	}
 	if (ft_strcmp(buf, str) == 0)
-		buf = NULL;
+		return (ft_docenf(&buf));
 	return (buf);
 }

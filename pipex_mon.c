@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 20:29:38 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/06 15:43:21 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/07 12:48:24 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ t_commands	*get_all_cmds(int nb, char **args, char **path)
 		ft_lstadd_back(&head, tmp);
 		i++;
 	}
+	i = -1;
+	while (path[++i])
+		free(path[i]);
 	free(path);
 	return (head);
 }

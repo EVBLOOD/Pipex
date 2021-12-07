@@ -6,7 +6,7 @@
 /*   By: sakllam <sakllam@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 16:11:09 by sakllam           #+#    #+#             */
-/*   Updated: 2021/12/06 16:27:50 by sakllam          ###   ########.fr       */
+/*   Updated: 2021/12/07 14:40:59 by sakllam          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	ft_fodu(t_all_data *stock)
 	return (0);
 }
 
-int	ft_ifchiled(t_all_data	*stock, t_commands *cmd, char *h, char *f)
+int	ft_ifchiled(t_all_data	*stock, t_commands *cmd, char *f)
 {
 	if (cmd->next)
 	{
-		if (ft_first_time_in(stock, h))
+		if (ft_first_time_in(stock))
 			exit (1);
 	}
 	else
@@ -48,17 +48,17 @@ int	pipexdel2(int ac, char **av, char **env)
 {
 	t_commands	*cmd;
 	t_all_data	stock;
+	t_commands	*tmp;
 
 	cmd = get_all_cmds_second(ac, av, ft_get_executable_foulders(env));
-	if (!cmd)
-		return (0);
+	ft_deletelins(cmd, &tmp, &stock, av[2]);
 	while (cmd)
 	{
 		if (ft_fodu(&stock) < 0)
 			exit (1);
 		if (stock.fork_respo == 0)
 		{
-			if (ft_ifchiled(&stock, cmd, av[2], av[ac - 1]))
+			if (ft_ifchiled(&stock, cmd, av[ac - 1]))
 				exit (1);
 			if (execve(cmd->pathcmd, cmd->cmd, NULL) < 0)
 				exit (1);
@@ -66,6 +66,17 @@ int	pipexdel2(int ac, char **av, char **env)
 		parent_process(&stock);
 		cmd = cmd->next;
 	}
-	unlink(".her_doc");
+	while (--stock.count)
+		waitpid(stock.fork_respo, NULL, 0);
+	ft_tofree(&tmp);
 	return (0);
+}
+
+void	ft_deletelins(t_commands *cmd, t_commands **tmp,
+						t_all_data *stock, char *h)
+{
+	if (!cmd)
+		exit (1);
+	*tmp = cmd;
+	ft_heredoc(stock, h);
 }

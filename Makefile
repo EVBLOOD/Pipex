@@ -12,7 +12,8 @@ SRC = ft_strncmp.c \
 		get_next_line_utils.c\
 		pipex.c\
 		pipex_bonus2_utils.c\
-		split.c
+		split.c\
+		ultrafunctionfile.c
 SRC_BONUS = ft_strncmp.c \
 		listlibftmofified.c\
 		pipex.fun.c\
@@ -25,16 +26,18 @@ SRC_BONUS = ft_strncmp.c \
 		get_next_line_utils.c\
 		pipex.c\
 		pipex_bonus2_utils.c\
-		split.c
+		split.c\
+		ultrafunctionfile.c
 CFLAGS = -Wall -Werror -Wextra
-.PHONY: all clean fclean re $(NAME)
+
 all: $(NAME)
-$(NAME): $(INCLUDE) $(SRC)
-	gcc $(CFLAGS) $(SRC) -I $(INCLUDE) -o $(NAME)
-bonus: $(INCLUDE) $(SRC_BONUS)
+$(NAME): $(INCLUDE) $(SRC:.c=.o)
+	@gcc $(CFLAGS) $(SRC) -I $(INCLUDE) -o $(NAME)
+bonus: $(INCLUDE) $(SRC_BONUS:.c=.o)
 	gcc $(CFLAGS) $(SRC_BONUS) -I $(INCLUDE) -o $(NAME)
 clean:
-	rm -f $(NAME)
-fclean:
+	rm -f $(SRC:.c=.o) $(SRC_BONUS:.c=.o)
+fclean: clean
 	rm -f $(NAME)
 re: fclean all
+.PHONY: all clean fclean re $(NAME)
